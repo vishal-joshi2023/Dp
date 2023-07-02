@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+
+void genrateSubsets(vector<int> &arr, int index,vector<int> &temp,vector<vector<int>> &ans){
+    
+    if(index == arr.size()) {
+        ans.push_back(temp);
+        return;
+    }
+
+    temp.push_back(arr[index]);
+    genrateSubsets(arr, index+1, temp, ans);
+    temp.pop_back();
+
+    genrateSubsets(arr,index+1, temp, ans);
+}
+
+void printAllSubsets(int n, vector<int> &arr){
+
+   vector<vector<int>> ans; 
+   vector<int> temp; 
+// genrateSubsets(arr, 0, temp,ans);
+ 
+
+/*
+    Time Complexity: O(N*2^N)
+    Space Complexity: O(N*2^N)
+
+    where N is the size of given input array.
+*/
+    
+    // Iterating over 1 to 2^N-1
+    for(int num = 1; num <= pow(2,n)-1; num++){
+        
+        // Checking ith bit value of num
+        for (int i = 0; i <= n-1; i++){
+            
+            // If ith bit is ON, adding arr[i] to temporary subset
+            if((num & (1 << i)) == (1 << i)){
+                temp.push_back(arr[i]);
+            }
+            
+        }
+        
+        // Adding the temporary subset to answer 
+        ans.push_back(temp);
+        
+        // Resetting temporary subset
+        temp.clear();
+    }
+    
+    // Printing the final answer
+    for(int i = 0; i < ans.size(); i++){
+         // Sorting and printing each subset
+        sort(ans[i].begin(),ans[i].end());
+        for(int j = 0; j < ans[i].size(); j++){
+            cout << ans[i][j] << " ";
+        }    
+        cout << endl;
+    }
+    
+
+}
